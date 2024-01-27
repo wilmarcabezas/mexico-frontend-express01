@@ -12,19 +12,39 @@ function Student() {
          });
    }, [])
 
+   const Eliminar = async (id) => {
+
+      //Implementando el metodo DELETE del Backend
+      //Usar await
+      const response = await fetch(`http://localhost:4000/student/${id}`,{         
+         method: 'DELETE'
+      });
+      if(response.status==404){
+         console.log("No se pudo eliminar el estudiante")
+      }
+      if(response.status==200){
+         console.log("Estudiante Eliminado")
+      }
+      console.log(response)
+
+   }
 
    return (
 
       <>
          Estudiantes Registrados
-        {students && <ul>
-         {students.map(item => <li 
-            key={item.id}>
-               Nombre:{item.name}-
-               Edad:{item.age}-
-               Nota:{item.note}               
-         </li>)}
-        </ul> }
+         {students && <ul>
+            {students.map(item => <li
+               key={item.id}>
+               <h4>{item.name}</h4>
+               <p>Nota:{item.note} </p>
+               <p>Edad:{item.age} </p>
+               <div>
+                  <button onClick={()=>Eliminar(item.id)}>Eliminar</button>
+                  <button>Actualizar</button>
+               </div>
+            </li>)}
+         </ul>}
       </>
 
    )
